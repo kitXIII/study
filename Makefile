@@ -1,15 +1,27 @@
+install:
+	bundle install
+
+test:
+	bundle exec rake test
+
+lint:
+	bundle exec rubocop
+
 compose-setup: compose-build compose-install
 
 compose-build:
 	docker-compose build
 
 compose-install:
-	docker-compose run --rm ruby bash -c 'bundle install'
+	docker-compose run --rm ruby make install
 
-test:
-	docker-compose run --rm ruby bash -c 'bundle exec rake test'
+compose-test:
+	docker-compose run --rm ruby make test
 
-lint:
-	docker-compose run --rm ruby bash -c 'bundle exec rubocop'
+compose-lint:
+	docker-compose run --rm ruby make lint
+
+compose-shell:
+	docker-compose run --rm ruby bash
 
 .PHONY: test
