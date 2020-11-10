@@ -6,18 +6,15 @@ module Exercise
         array.map { |item| item.positive? ? max : item }
       end
 
-      def search(array, query)
-        iter = lambda do |first, last|
-          return -1 unless first <= last
+      def search(array, query, first = 0)
+        last = array.size - 1
+        return -1 if last.negative?
 
-          mid = (first + last) / 2
+        mid = last / 2
 
-          return mid if array[mid] == query
-          return iter.call(first, mid - 1) if query < array[mid]
-          return iter.call(mid + 1, last) if query > array[mid]
-        end
-
-        iter.call(0, array.size - 1)
+        return first + mid if array[mid] == query
+        return search(array.slice(0, mid), query, first) if query < array[mid]
+        return search(array.slice(mid + 1, last - mid), query, first + mid + 1) if query > array[mid]
       end
     end
   end
